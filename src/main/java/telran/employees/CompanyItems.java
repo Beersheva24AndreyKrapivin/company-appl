@@ -43,7 +43,7 @@ public class CompanyItems {
     static void showSubmenuEmployee(InputOutput io) {
         Item[] items = CompanyItems.getItemsForMenuEmployee();
         Menu menu = new Menu("Add Employee", items);
-        menu.perform(new StandartInputOutput());
+        menu.perform(io);
     }
 
     private static Item[] getItemsForMenuEmployee() {
@@ -59,52 +59,48 @@ public class CompanyItems {
 
     private static String enterDepartment(InputOutput io) {
         HashSet<String> departmentsSet = new HashSet<>(List.of(DEPARTMENTS));
-        return io.readStringOptions("Enter department from " + departmentsSet, "Must be one out from " + departmentsSet, 
-        departmentsSet);
+        return io.readStringOptions("Enter department from " + departmentsSet, "Must be one out from " + departmentsSet,
+                departmentsSet);
     }
 
     private static int enterSalary(InputOutput io) {
         return io.readNumberRange(String.format("Enter Salary value in the range [%d-%d]", MIN_SALARY, MAX_SALARY),
-        "Wrong Salary value", MIN_SALARY, MAX_SALARY).intValue();
+                "Wrong Salary value", MIN_SALARY, MAX_SALARY).intValue();
     }
 
     private static int enterWage(InputOutput io) {
         return io.readNumberRange(String.format("Enter Wage value in the range [%d-%d]", MIN_WAGE, MAX_WAGE),
-        "Wrong Wage value", MIN_WAGE, MAX_WAGE).intValue();
+                "Wrong Wage value", MIN_WAGE, MAX_WAGE).intValue();
     }
 
     private static int enterHours(InputOutput io) {
         return io.readNumberRange(String.format("Enter Hours value in the range [%d-%d]", MIN_HOURS, MAX_HOURS),
-        "Wrong Hours value", MIN_HOURS, MAX_HOURS).intValue();
+                "Wrong Hours value", MIN_HOURS, MAX_HOURS).intValue();
     }
 
     private static long enterId(InputOutput io) {
         return io.readNumberRange(String.format("Enter ID value in the range [%d-%d]", MIN_ID, MAX_ID),
-        "Wrong ID value", MIN_ID, MAX_ID).longValue();
+                "Wrong ID value", MIN_ID, MAX_ID).longValue();
     }
 
     private static float enterPercent(InputOutput io) {
         return io.readNumberRange(String.format("Enter Percent value in the range [%f-%f]", MIN_PERCENT, MAX_PERCENT),
-        "Wrong Percent value", MIN_PERCENT, MAX_PERCENT).floatValue();
+                "Wrong Percent value", MIN_PERCENT, MAX_PERCENT).floatValue();
     }
 
     private static long enterSales(InputOutput io) {
         return io.readNumberRange(String.format("Enter Sales value in the range [%d-%d]", MIN_SALES, MAX_SALES),
-        "Wrong Sales value", MIN_SALES, MAX_SALES).longValue();
+                "Wrong Sales value", MIN_SALES, MAX_SALES).longValue();
     }
 
     private static float enterFactor(InputOutput io) {
         return io.readNumberRange(String.format("Enter Factor value in the range [%f-%f]", MIN_FACTOR, MAX_FACTOR),
-        "Wrong Factor value", MIN_FACTOR, MAX_FACTOR).floatValue();
+                "Wrong Factor value", MIN_FACTOR, MAX_FACTOR).floatValue();
     }
 
     private static void addEmployeeInCompany(InputOutput io, Employee empl, String typeEmployee) {
-        try {
-            company.addEmployee(empl);
-            io.writeLine(typeEmployee + " " + empl + " was added");
-        } catch (Exception e) {
-            io.writeLine(typeEmployee + " " + empl + " already exists");
-        }
+        company.addEmployee(empl);
+        io.writeLine(typeEmployee + " " + empl + " was added");
     }
 
     private static Employee createEmployee(InputOutput io) {
@@ -153,27 +149,23 @@ public class CompanyItems {
 
     static void hireManager(InputOutput io) {
         Employee empl = createManager(io);
-        addEmployeeInCompany(io, empl, "Manager");  
+        addEmployeeInCompany(io, empl, "Manager");
     }
 
     static void displayEmployeeData(InputOutput io) {
         long id = enterId(io);
-        try {
-            Employee empl = company.getEmployee(id);
-            io.writeLine(empl);
-        } catch (Exception e) {
+        Employee empl = company.getEmployee(id);
+        if (empl == null) {
             io.writeLine("Employee with ID " + id + " was not found");
+        } else {
+            io.writeLine(empl);
         }
     }
 
     static void fireEmployee(InputOutput io) {
         long id = enterId(io);
-        try {
-            Employee empl = company.removeEmployee(id);
-            io.writeLine("Employee " + empl + " was fired");
-        } catch (Exception e) {
-            io.writeLine("Employee with ID " + id + " was not found");
-        }
+        Employee empl = company.removeEmployee(id);
+        io.writeLine("Employee " + empl + " was fired");
     }
 
     static void departmentSalaryBudget(InputOutput io) {
